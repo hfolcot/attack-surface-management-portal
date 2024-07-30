@@ -1,0 +1,17 @@
+.header {
+    background: #FE5B17;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 25px;
+
+    .title {
+        font-size: 48px;
+        font-weight: 500;
+    }
+}

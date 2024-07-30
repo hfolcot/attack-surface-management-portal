@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DataService } from './data.service';
+import { HeaderComponent } from './core-components/header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'attack-surface-management-portal';
+
+  dataService = inject(DataService);
+
+  ngOnInit(): void {
+    this.dataService.getMessage().subscribe(data => console.log(data))
+  }
 }
