@@ -16,10 +16,7 @@ app.use((req, res, next) => {
 
 app.get('/api/vulnerabilities', (req, res) => { 
 	res.status(200).json({
-        status: "success",
-        data: {
-            vulnerabilities
-        }
+            vulnerabilitiesObject: vulnerabilities
     }); 
 }); 
 

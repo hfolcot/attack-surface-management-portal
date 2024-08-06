@@ -1,6 +1,6 @@
 main {
   padding-top: 150px;
-  max-width: 75vw;
+  max-width: 85vw;
   margin: 0 auto;
 
   .container {
@@ -14,5 +14,26 @@ main {
   .table-container {
     display: flex;
     flex-direction: column;
+
+    mat-table {
+      width: 100%;
+      margin-top: 25px;
+      background: rgba(0, 0, 0, 0.01);
+    }
+
+    mat-paginator {
+      background: transparent;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    max-width: 100%;  
+    
+  }
+
+  @media screen and (max-width: 1200px) {
+    .charts-container {
+      flex-direction: column;
+    }
   }
 }
