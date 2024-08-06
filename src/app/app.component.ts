@@ -18,4 +18,10 @@ export class AppComponent {
   ngOnInit(): void {
     this.dataService.getMessage().subscribe(data => console.log(data))
   }
+
+  //--
+
+  private getData(): void {
+    
+  }
 }

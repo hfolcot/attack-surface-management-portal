@@ -1,5 +1,18 @@
 main {
-    padding-top: 150px;
+  padding-top: 150px;
+  max-width: 75vw;
+  margin: 0 auto;
+
+  .container {
+    margin: 40px;
+  }
+  .charts-container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+  }
+
+  .table-container {
+    display: flex;
+    flex-direction: column;
+  }
 }
