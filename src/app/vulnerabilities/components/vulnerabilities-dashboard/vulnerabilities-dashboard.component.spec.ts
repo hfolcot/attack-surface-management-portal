@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VulnerabilitiesDashboardComponent } from './vulnerabilities-dashboard.component';
+import { VulnerabilitiesModule } from '../../vulnerabilities.module';
+import { AppModule } from '../../../app.module';
 
 describe('VulnerabilitiesDashboardComponent', () => {
   let component: VulnerabilitiesDashboardComponent;
@@ -8,7 +10,7 @@ describe('VulnerabilitiesDashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VulnerabilitiesDashboardComponent]
+      imports: [VulnerabilitiesModule, AppModule]
     })
     .compileComponents();
 

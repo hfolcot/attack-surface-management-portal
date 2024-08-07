@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { DataService } from '../../services/data.service';
+import { VulnerabilitiesService } from '../../services/vulnerabilities.service';
 import { IVulnerability } from '../../interfaces/IVulnerabilities.interface';
 import { DialogComponent } from '../../../core-components/dialog/dialog.component';
 import { ChartData } from 'chart.js';
@@ -15,7 +15,7 @@ import { ChartData } from 'chart.js';
 export class VulnerabilitiesDashboardComponent {
 
   //Services
-  dataService = inject(DataService);
+  vulnerabilitiesService = inject(VulnerabilitiesService);
   destroyRef = inject(DestroyRef);
 
   //Data
@@ -41,10 +41,9 @@ export class VulnerabilitiesDashboardComponent {
   //--
 
   private getData(): void {
-    const dataSubscription = this.dataService.getVulnerabilities()
+    const dataSubscription = this.vulnerabilitiesService.getVulnerabilities()
       .subscribe({
         next: data => {
-          console.log(data);
           this.vulnerabilities = data.vulnerabilities;
           this.dataSource = new MatTableDataSource<IVulnerability>(data.vulnerabilities)
           this.dataSource.paginator = this.paginator;
@@ -73,11 +72,11 @@ export class VulnerabilitiesDashboardComponent {
 
   private createChartOptions(): void {
     this.createTopTenVendorProjectsChartOptions();
-    this.createVulnerabilitiesPerMonthChartOptions();
+    this.vulnerabilitiesByMonthChartData = this.createVulnerabilitiesPerMonthChartOptions();
   }
 
   private createTopTenVendorProjectsChartOptions(): void {
-    const topTenVendorProjects = this.getTopTenVendorProjects();
+    const topTenVendorProjects = this.vulnerabilitiesService.getTopXVendorProjects(this.vulnerabilities, 10);
 
     const labels = topTenVendorProjects.map(item => item.vendorProject);
 
@@ -93,42 +92,12 @@ export class VulnerabilitiesDashboardComponent {
     };
   }
 
-  private createVulnerabilitiesPerMonthChartOptions(): void {
-    const countPerMonth = this.vulnerabilities.reduce((acc, vulnerability) => {
-      const { dateAdded } = vulnerability;
-      const month = new Date(dateAdded).getMonth();
-      if (!acc[month]) {
-        acc[month] = 0;
-      }
-      acc[month]++;
-      return acc;
-    }, {} as Record<number, number>)
-
-    console.log(countPerMonth);
-
-    const dataSet = Object.entries(countPerMonth).map(item => item[1]);
-
-    this.vulnerabilitiesByMonthChartData = {
+  private createVulnerabilitiesPerMonthChartOptions(): ChartData {
+    return {
       labels: this.months,
       datasets: [{
         label: 'Count',
-        data: dataSet
+        data: this.vulnerabilitiesService.getVulnerabilitiesPerMonth(this.vulnerabilities)
       }]}
-  }
-
-  private getTopTenVendorProjects(): { vendorProject: string, count: number }[] {
-    const vendorProjectCounts = this.vulnerabilities.reduce((acc, vulnerability) => {
-      const { vendorProject } = vulnerability;
-      if (!acc[vendorProject]) {
-        acc[vendorProject] = 0;
-      }
-      acc[vendorProject]++;
-      return acc;
-    }, {} as Record<string, number>);
-
-    return Object.entries(vendorProjectCounts).map(([vendorProject, count]) => ({
-      vendorProject,
-      count,
-    })).sort((a, b) => b.count - a.count).slice(0, 10);
   }
 }
