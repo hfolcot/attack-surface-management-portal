@@ -6,7 +6,6 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { DatePipe } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ChartsModule } from "../charts/charts.module";
-import { PieChartComponent } from "../charts/pie-chart/pie-chart.component";
 
 const publicComponents = [
     VulnerabilitiesDashboardComponent

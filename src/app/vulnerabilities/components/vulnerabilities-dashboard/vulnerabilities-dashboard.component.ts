@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../services/data.service';
 import { IVulnerability } from '../../interfaces/IVulnerabilities.interface';
 import { DialogComponent } from '../../../core-components/dialog/dialog.component';
-import { Chart, ChartData, ChartOptions } from 'chart.js';
+import { ChartData } from 'chart.js';
 
 @Component({
   selector: 'app-vulnerabilities-dashboard',
@@ -31,6 +31,8 @@ export class VulnerabilitiesDashboardComponent {
 
   // Charts
   vendorProjectChartData!: ChartData;
+  vulnerabilitiesByMonthChartData!: ChartData;
+  months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   ngOnInit(): void {
     this.getData();
@@ -70,8 +72,12 @@ export class VulnerabilitiesDashboardComponent {
   }
 
   private createChartOptions(): void {
+    this.createTopTenVendorProjectsChartOptions();
+    this.createVulnerabilitiesPerMonthChartOptions();
+  }
+
+  private createTopTenVendorProjectsChartOptions(): void {
     const topTenVendorProjects = this.getTopTenVendorProjects();
-    console.log(topTenVendorProjects)
 
     const labels = topTenVendorProjects.map(item => item.vendorProject);
 
@@ -83,12 +89,34 @@ export class VulnerabilitiesDashboardComponent {
         label: 'Count',
         data
       }]
-  
+
     };
-  
   }
 
-  private getTopTenVendorProjects(): {vendorProject: string, count: number}[] {
+  private createVulnerabilitiesPerMonthChartOptions(): void {
+    const countPerMonth = this.vulnerabilities.reduce((acc, vulnerability) => {
+      const { dateAdded } = vulnerability;
+      const month = new Date(dateAdded).getMonth();
+      if (!acc[month]) {
+        acc[month] = 0;
+      }
+      acc[month]++;
+      return acc;
+    }, {} as Record<number, number>)
+
+    console.log(countPerMonth);
+
+    const dataSet = Object.entries(countPerMonth).map(item => item[1]);
+
+    this.vulnerabilitiesByMonthChartData = {
+      labels: this.months,
+      datasets: [{
+        label: 'Count',
+        data: dataSet
+      }]}
+  }
+
+  private getTopTenVendorProjects(): { vendorProject: string, count: number }[] {
     const vendorProjectCounts = this.vulnerabilities.reduce((acc, vulnerability) => {
       const { vendorProject } = vulnerability;
       if (!acc[vendorProject]) {
