@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { IVulnerabilities } from '../../interfaces/IVulnerabilities.interface';
+import { IVulnerabilities } from '../interfaces/IVulnerabilities.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +17,5 @@ export class DataService {
             return response.vulnerabilitiesObject;
           }
         ));
-  }  
+  } 
 }

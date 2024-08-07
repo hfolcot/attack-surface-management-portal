@@ -5,6 +5,8 @@ import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { DatePipe } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { ChartsModule } from "../charts/charts.module";
+import { PieChartComponent } from "../charts/pie-chart/pie-chart.component";
 
 const publicComponents = [
     VulnerabilitiesDashboardComponent
@@ -13,17 +15,17 @@ const publicComponents = [
 @NgModule({
     declarations: [...publicComponents],
     imports: [
-        RouterModule.forChild([
-            {
-                path: '',
-                component: VulnerabilitiesDashboardComponent,
-            },
-        ]),
-        
-        CoreComponentsModule, 
-        DatePipe,
-        MatPaginatorModule, 
-        MatTableModule, 
-    ]
+    RouterModule.forChild([
+        {
+            path: '',
+            component: VulnerabilitiesDashboardComponent,
+        },
+    ]),
+    CoreComponentsModule,
+    ChartsModule,
+    DatePipe,
+    MatPaginatorModule,
+    MatTableModule,
+]
 })
 export class VulnerabilitiesModule {}

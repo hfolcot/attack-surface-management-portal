@@ -3,8 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../services/data.service';
-import { IVulnerability } from '../../../interfaces/IVulnerabilities.interface';
+import { IVulnerability } from '../../interfaces/IVulnerabilities.interface';
 import { DialogComponent } from '../../../core-components/dialog/dialog.component';
+import { Chart, ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-vulnerabilities-dashboard',
@@ -17,6 +18,9 @@ export class VulnerabilitiesDashboardComponent {
   dataService = inject(DataService);
   destroyRef = inject(DestroyRef);
 
+  //Data
+  vulnerabilities!: IVulnerability[];
+
   // UI
   tableColumns: string[] = ["cveID", "vendorProject", "product", "dateAdded", "shortDescription"];
   dataSource!: MatTableDataSource<IVulnerability>;
@@ -24,6 +28,9 @@ export class VulnerabilitiesDashboardComponent {
   tableTitle!: string;
   error!: string;
   dialog = inject(MatDialog);
+
+  // Charts
+  vendorProjectChartData!: ChartData;
 
   ngOnInit(): void {
     this.getData();
@@ -36,9 +43,11 @@ export class VulnerabilitiesDashboardComponent {
       .subscribe({
         next: data => {
           console.log(data);
+          this.vulnerabilities = data.vulnerabilities;
           this.dataSource = new MatTableDataSource<IVulnerability>(data.vulnerabilities)
           this.dataSource.paginator = this.paginator;
           this.tableTitle = data.title;
+          this.createChartOptions();
         },
         error: (err) => {
           this.handleError();
@@ -58,5 +67,40 @@ export class VulnerabilitiesDashboardComponent {
     dialogRef.afterClosed().subscribe(() => {
       this.getData();
     });
+  }
+
+  private createChartOptions(): void {
+    const topTenVendorProjects = this.getTopTenVendorProjects();
+    console.log(topTenVendorProjects)
+
+    const labels = topTenVendorProjects.map(item => item.vendorProject);
+
+    const data = topTenVendorProjects.map(item => item.count);
+
+    this.vendorProjectChartData = {
+      labels,
+      datasets: [{
+        label: 'Count',
+        data
+      }]
+  
+    };
+  
+  }
+
+  private getTopTenVendorProjects(): {vendorProject: string, count: number}[] {
+    const vendorProjectCounts = this.vulnerabilities.reduce((acc, vulnerability) => {
+      const { vendorProject } = vulnerability;
+      if (!acc[vendorProject]) {
+        acc[vendorProject] = 0;
+      }
+      acc[vendorProject]++;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return Object.entries(vendorProjectCounts).map(([vendorProject, count]) => ({
+      vendorProject,
+      count,
+    })).sort((a, b) => b.count - a.count).slice(0, 10);
   }
 }
