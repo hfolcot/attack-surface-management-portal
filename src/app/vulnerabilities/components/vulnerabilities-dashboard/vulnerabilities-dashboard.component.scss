@@ -27,8 +27,9 @@
   }
 
   @media screen and (max-width: 1200px) {
-    .charts-container {
+    .charts-container, .table-container {
       flex-direction: column;
+      margin: 0;
     }
   }
 }

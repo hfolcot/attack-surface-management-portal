@@ -1,4 +1,40 @@
+
+
+
 # AttackSurfaceManagementPortal
+
+![Dashboard](/screenshots/covertSwarm.gif)
+
+## Contents
+
+A dashboard consisting of a pie chart, bar chart and table populated with data from a Node/Express backend using json data.
+
+Components are grouped into related modules. All common components are in a `core-components` module. 
+
+There is a module for charts which uses [Chart.js](https://www.chartjs.org/) and will create any chart based on the data passed in.
+
+[Angular Material](https://material.angular.io/) has been utilised for the table/pagination and some styling.
+
+The app has routing implemented and therefore is ready to add further pages if necessary.
+
+There are a small number of sample tests using jasmine/karma. All tests currently pass. 
+
+The dashboard is viewable on any screen size.
+![Large Screen](/screenshots/dashboard.png)
+![Mobile Screen](/screenshots/responsiveDashboard.png)
+
+The project was planned and designed using Figma.
+
+## Room for improvement
+
+Test coverage is very low, it would be ideal to complete this to include all methods. 
+
+The app is not yet production ready - API/env data should be moved into a separate git-ignored file.
+
+Mobile responsiveness could be improved for the table, for example the number of columns could be reduced based on the screen width. Currently it is very squashed on a mobile screen.
+
+
+----------------------------------------------------------------------------------------------------
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
 

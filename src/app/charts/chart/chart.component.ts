@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Chart, ChartData, registerables } from 'chart.js';
+import { Chart, ChartData, ChartType, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -10,7 +10,7 @@ Chart.register(...registerables);
 })
 export class ChartComponent {
   data = input.required<ChartData>();
-  type = input.required<'pie' | 'bar'>();
+  type = input.required<ChartType>();
   showLegend = input<boolean>(false);
 
   id = Math.random() * 1000;
