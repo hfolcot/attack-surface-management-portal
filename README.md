@@ -18,6 +18,7 @@ There is a module for charts which uses [Chart.js](https://www.chartjs.org/) and
 The app has routing implemented and therefore is ready to add further pages if necessary.
 
 There are a small number of sample tests using jasmine/karma. All tests currently pass. 
+![Karma](/screenshots/testPass.jpg)
 
 The dashboard is viewable on any screen size.
 ![Large Screen](/screenshots/dashboard.jpg)
