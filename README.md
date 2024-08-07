@@ -35,6 +35,8 @@ The app is not yet production ready - API/env data should be moved into a separa
 Mobile responsiveness could be improved for the table, for example the number of columns could be reduced based on the screen width. Currently it is very squashed on a mobile screen.
 
 
+
+(The information below was generated automatically by the angular CLI)
 ----------------------------------------------------------------------------------------------------
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
