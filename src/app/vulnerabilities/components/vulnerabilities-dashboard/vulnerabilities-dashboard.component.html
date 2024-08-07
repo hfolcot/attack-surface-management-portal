@@ -1,0 +1,45 @@
+<div class="charts-container container">
+    <app-card title="Vendor project vulnerabilities (top 10)"></app-card>
+    <app-card title="Vulnerabilities by month"></app-card>
+  </div>
+  <div class="table-container container">
+    <app-card [title]="tableTitle">
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="cveID">
+          <mat-header-cell *matHeaderCellDef> CVE ID </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.cveID }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="vendorProject">
+          <mat-header-cell *matHeaderCellDef> Vendor Project</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.vendorProject }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="product">
+          <mat-header-cell *matHeaderCellDef> Product </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.product }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="dateAdded">
+          <mat-header-cell *matHeaderCellDef> Date Added </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.dateAdded | date }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="shortDescription">
+          <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.shortDescription }}
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+      </mat-table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </app-card>
+  </div>
