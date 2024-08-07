@@ -3,17 +3,18 @@ import { RouterOutlet } from '@angular/router';
 import { DataService } from './services/data.service';
 import { HeaderComponent } from './core-components/header/header.component';
 import { CardComponent } from './core-components/card/card.component';
-import { tap } from 'rxjs';
-import { IVulnerabilities, IVulnerability } from './interfaces/IVulnerabilities.interface';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { IVulnerability } from './interfaces/IVulnerabilities.interface';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from './core-components/dialog/dialog.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, CardComponent, MatTableModule, MatPaginatorModule, MatSortModule, DatePipe ],
+  imports: [RouterOutlet, HeaderComponent, CardComponent, MatTableModule, MatPaginatorModule, MatSortModule, DatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -28,6 +29,8 @@ export class AppComponent implements OnInit {
   dataSource!: MatTableDataSource<IVulnerability>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   tableTitle!: string;
+  error!: string;
+  dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.getData();
@@ -36,17 +39,31 @@ export class AppComponent implements OnInit {
   //--
 
   private getData(): void {
-    const dataSubscription = this.dataService.getVulnerabilities().pipe(
-      tap((data: IVulnerabilities) => {
-        console.log(data);
-        this.dataSource = new MatTableDataSource<IVulnerability>(data.vulnerabilities)
-        this.dataSource.paginator = this.paginator;
-        this.tableTitle = data.title;
+    const dataSubscription = this.dataService.getVulnerabilities()
+      .subscribe({
+        next: data => {
+          console.log(data);
+          this.dataSource = new MatTableDataSource<IVulnerability>(data.vulnerabilities)
+          this.dataSource.paginator = this.paginator;
+          this.tableTitle = data.title;
+        },
+        error: (err) => {
+          this.handleError();
+        }
       })
-    ).subscribe()
 
     this.destroyRef.onDestroy(() => {
       dataSubscription.unsubscribe();
     })
+  }
+
+  private handleError(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { title: "An Error Occurred", message: "There was an error retrieving the data. Please try again.", confirmation: "Retry" },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getData();
+    });
   }
 }
