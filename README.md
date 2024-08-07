@@ -20,8 +20,8 @@ The app has routing implemented and therefore is ready to add further pages if n
 There are a small number of sample tests using jasmine/karma. All tests currently pass. 
 
 The dashboard is viewable on any screen size.
-![Large Screen](/screenshots/dashboard.png)
-![Mobile Screen](/screenshots/responsiveDashboard.png)
+![Large Screen](/screenshots/dashboard.jpg)
+![Mobile Screen](/screenshots/responsiveDashboard.jpg)
 
 The project was planned and designed using Figma.
 
