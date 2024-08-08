@@ -36,6 +36,8 @@ Mobile responsiveness could be improved for the table, for example the number of
 
 A loading spinner would be useful to provide feedback to the user on the current state of the app.
 
+Given more time I would create more generic services to create Chart data and Chart config options.
+
 
 
 (The information below was generated automatically by the angular CLI)
