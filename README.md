@@ -34,6 +34,8 @@ The app is not yet production ready - API/env data should be moved into a separa
 
 Mobile responsiveness could be improved for the table, for example the number of columns could be reduced based on the screen width. Currently it is very squashed on a mobile screen.
 
+A loading spinner would be useful to provide feedback to the user on the current state of the app.
+
 
 
 (The information below was generated automatically by the angular CLI)
