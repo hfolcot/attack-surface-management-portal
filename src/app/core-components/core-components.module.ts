@@ -4,6 +4,7 @@ import { CardComponent } from './card/card.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { HeaderComponent } from './header/header.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 const publicComponents = [
   CardComponent, DialogComponent, HeaderComponent
@@ -15,7 +16,8 @@ const publicComponents = [
   ],
   imports: [
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule
   ],
   exports: [
     ...publicComponents

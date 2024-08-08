@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { IVulnerabilities, IVulnerability } from '../interfaces/IVulnerabilities.interface';
+import { ChartData } from 'chart.js';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,33 @@ export class VulnerabilitiesService {
       vendorProject,
       count,
     })).sort((a, b) => b.count - a.count).slice(0, count);
+  }
+
+  createVulnerabilitiesPerMonthChartOptions(vulnerabilities: IVulnerability[]): ChartData {
+    const months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    return {
+      labels: months,
+      datasets: [{
+        label: 'Count',
+        data: this.getVulnerabilitiesPerMonth(vulnerabilities)
+      }]
+    }
+  }
+
+  createTopTenVendorProjectsChartOptions(vulnerabilities: IVulnerability[]): ChartData {
+    const topTenVendorProjects = this.getTopXVendorProjects(vulnerabilities, 10);
+
+    const labels = topTenVendorProjects.map(item => item.vendorProject);
+
+    const data = topTenVendorProjects.map(item => item.count);
+
+    return {
+      labels,
+      datasets: [{
+        label: 'Count',
+        data
+      }]
+    };
   }
 }

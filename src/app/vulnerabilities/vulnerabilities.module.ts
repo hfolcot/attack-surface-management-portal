@@ -6,7 +6,6 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { DatePipe } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ChartsModule } from "../charts/charts.module";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 const publicComponents = [
     VulnerabilitiesDashboardComponent
@@ -25,7 +24,7 @@ const publicComponents = [
         ChartsModule,
         DatePipe,
         MatPaginatorModule,
-        MatTableModule,
+        MatTableModule
     ]
 })
 export class VulnerabilitiesModule { }
